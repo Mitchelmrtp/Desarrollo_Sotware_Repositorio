@@ -106,8 +106,7 @@ export const CategoryModel = (sequelize) => {
             comment: 'Sort order for displaying categories'
         },
         status: {
-            type: DataTypes.ENUM,
-            values: ['active', 'inactive'],
+            type: DataTypes.ENUM('active', 'inactive'),
             defaultValue: 'active',
             comment: 'Category status'
         },

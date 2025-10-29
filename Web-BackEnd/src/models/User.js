@@ -153,8 +153,7 @@ export const UserModel = (sequelize) => {
             comment: 'User telephone number'
         },
         role: {
-            type: DataTypes.ENUM,
-            values: ['admin', 'teacher', 'student', 'user'],
+            type: DataTypes.ENUM('admin', 'teacher', 'student', 'user'),
             allowNull: false,
             defaultValue: 'user',
             validate: {
@@ -166,8 +165,7 @@ export const UserModel = (sequelize) => {
             comment: 'User role in the system'
         },
         status: {
-            type: DataTypes.ENUM,
-            values: ['active', 'inactive', 'pending', 'suspended'],
+            type: DataTypes.ENUM('active', 'inactive', 'pending', 'suspended'),
             allowNull: false,
             defaultValue: 'active',
             comment: 'User account status'

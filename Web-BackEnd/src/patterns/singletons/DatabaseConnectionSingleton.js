@@ -158,8 +158,8 @@ export class DatabaseConnectionSingleton {
 
     Resource.belongsToMany(Tag, {
       through: ResourceTag,
-      foreignKey: 'resourceId',
-      otherKey: 'tagId',
+      foreignKey: 'resource_id',
+      otherKey: 'tag_id',
       as: 'tagList'
     });
 
@@ -183,8 +183,8 @@ export class DatabaseConnectionSingleton {
     // Tag associations
     Tag.belongsToMany(Resource, {
       through: ResourceTag,
-      foreignKey: 'tagId',
-      otherKey: 'resourceId',
+      foreignKey: 'tag_id',
+      otherKey: 'resource_id',
       as: 'resourceList'
     });
 
@@ -200,8 +200,8 @@ export class DatabaseConnectionSingleton {
       await this.initializeModels();
       
       const defaultOptions = {
-        force: this.#config.get('NODE_ENV') === 'development' && this.#config.get('DB_FORCE_SYNC', false),
-        alter: this.#config.get('NODE_ENV') === 'development',
+        force: this.#config.get('NODE_ENV') === 'development' && this.#config.get('DB_FORCE_SYNC', true),
+        alter: false, // Disable alter to avoid ENUM conflicts
         logging: (msg) => this.#logger.debug('📋 Sequelize:', msg)
       };
 

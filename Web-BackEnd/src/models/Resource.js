@@ -141,8 +141,7 @@ export const ResourceModel = (sequelize) => {
             comment: 'Main resource content'
         },
         type: {
-            type: DataTypes.ENUM,
-            values: ['document', 'video', 'image', 'audio', 'link', 'presentation', 'spreadsheet', 'other'],
+            type: DataTypes.ENUM('document', 'video', 'image', 'audio', 'link', 'presentation', 'spreadsheet', 'other'),
             allowNull: false,
             defaultValue: 'document',
             comment: 'Type of resource'
@@ -162,8 +161,7 @@ export const ResourceModel = (sequelize) => {
             comment: 'Academic subject'
         },
         level: {
-            type: DataTypes.ENUM,
-            values: ['beginner', 'intermediate', 'advanced', 'expert'],
+            type: DataTypes.ENUM('beginner', 'intermediate', 'advanced', 'expert'),
             defaultValue: 'beginner',
             comment: 'Difficulty level'
         },
@@ -215,15 +213,13 @@ export const ResourceModel = (sequelize) => {
             comment: 'Resource tags for search and categorization'
         },
         visibility: {
-            type: DataTypes.ENUM,
-            values: ['public', 'private', 'restricted'],
+            type: DataTypes.ENUM('public', 'private', 'restricted'),
             allowNull: false,
             defaultValue: 'public',
             comment: 'Resource visibility level'
         },
         status: {
-            type: DataTypes.ENUM,
-            values: ['draft', 'published', 'archived', 'under_review'],
+            type: DataTypes.ENUM('draft', 'published', 'archived', 'under_review'),
             allowNull: false,
             defaultValue: 'draft',
             comment: 'Resource publication status'

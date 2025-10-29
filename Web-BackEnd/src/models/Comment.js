@@ -120,8 +120,7 @@ export const CommentModel = (sequelize) => {
             comment: 'Author email (for anonymous comments)'
         },
         status: {
-            type: DataTypes.ENUM,
-            values: ['pending', 'approved', 'rejected', 'spam'],
+            type: DataTypes.ENUM('pending', 'approved', 'rejected', 'spam'),
             defaultValue: 'pending',
             comment: 'Comment moderation status'
         },

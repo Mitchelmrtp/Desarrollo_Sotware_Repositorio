@@ -104,8 +104,7 @@ export const TagModel = (sequelize) => {
             comment: 'Number of times this tag has been used'
         },
         status: {
-            type: DataTypes.ENUM,
-            values: ['active', 'inactive'],
+            type: DataTypes.ENUM('active', 'inactive'),
             defaultValue: 'active',
             comment: 'Tag status'
         },

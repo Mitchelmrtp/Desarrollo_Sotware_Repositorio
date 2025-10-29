@@ -67,27 +67,15 @@ export const ResourceTagModel = (sequelize) => {
         resource_id: {
             type: DataTypes.UUID,
             allowNull: false,
-            references: {
-                model: 'resources',
-                key: 'id'
-            },
             comment: 'ID of the resource'
         },
         tag_id: {
             type: DataTypes.UUID,
             allowNull: false,
-            references: {
-                model: 'tags',
-                key: 'id'
-            },
             comment: 'ID of the tag'
         },
         created_by: {
             type: DataTypes.UUID,
-            references: {
-                model: 'users',
-                key: 'id'
-            },
             comment: 'ID of the user who created this relationship'
         },
         metadata: {

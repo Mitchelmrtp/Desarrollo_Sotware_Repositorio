@@ -168,37 +168,43 @@ const LoginPage = () => {
             <div className="grid grid-cols-3 gap-2 mb-2">
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setFieldValue('email', 'admin@test.com');
                   setFieldValue('password', 'admin123');
                 }}
-                className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded"
+                className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded transition-colors"
               >
                 Admin
               </button>
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setFieldValue('email', 'user@test.com');
                   setFieldValue('password', 'user123');
                 }}
-                className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded"
+                className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded transition-colors"
               >
                 Usuario
               </button>
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setFieldValue('email', 'teacher@test.com');
                   setFieldValue('password', 'teacher123');
                 }}
-                className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded"
+                className="text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded transition-colors"
               >
                 Profesor
               </button>
             </div>
-            <div className="text-xs text-yellow-700">
-              <div>Haz clic en los botones para autocompletar</div>
+            <div className="text-xs text-yellow-700 space-y-1">
+              <div>🎯 Haz clic en los botones para autocompletar</div>
+              <div className="font-mono">
+                Env: {import.meta.env.VITE_NODE_ENV || 'undefined'}
+              </div>
             </div>
           </div>
         )}
