@@ -17,7 +17,8 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { Avatar, Button } from '../components/atoms';
 import { SearchBar } from '../components/molecules';
-import { useAuth, useGlobalDispatch, ActionTypes } from '../store';
+import { useGlobalDispatch, ActionTypes } from '../store';
+import { useAuth } from '../hooks/useAuth';
 
 const Navbar = ({ 
   onSidebarToggle, 
@@ -26,12 +27,10 @@ const Navbar = ({
   notifications = [],
   ...props 
 }) => {
-  const [authState] = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const dispatch = useGlobalDispatch();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const { user, isAuthenticated } = authState;
   const unreadNotifications = notifications.filter(n => !n.read).length;
 
   const handleSearch = (query) => {
@@ -39,9 +38,16 @@ const Navbar = ({
     navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
-  const handleLogout = () => {
-    // Logout logic will be handled by auth hook
-    navigate('/login');
+  const handleLogout = async () => {
+    console.log('🚪 Navbar: Logout button clicked');
+    try {
+      await logout('/login');
+      console.log('✅ Navbar: Logout completed successfully');
+    } catch (error) {
+      console.error('❌ Navbar: Error during logout:', error);
+      // Fallback: navigate to login anyway
+      navigate('/login');
+    }
   };
 
   const navigation = [

@@ -4,7 +4,7 @@
 import axios from 'axios';
 
 class HttpClientAdapter {
-  constructor(baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api') {
+  constructor(baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001') {
     this.client = axios.create({
       baseURL,
       timeout: 10000,
@@ -35,8 +35,13 @@ class HttpClientAdapter {
       async (error) => {
         const originalRequest = error.config;
 
-        // Handle 401 errors (unauthorized)
+        // Handle 401 errors (unauthorized) - but only for protected routes
         if (error.response?.status === 401 && !originalRequest._retry) {
+          // Don't clear tokens for login/register endpoints
+          if (originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/register')) {
+            return Promise.reject(this.normalizeError(error));
+          }
+          
           originalRequest._retry = true;
           
           try {
@@ -49,13 +54,13 @@ class HttpClientAdapter {
               originalRequest.headers.Authorization = `Bearer ${newToken}`;
               
               return this.client(originalRequest);
+            } else {
+              // Only clear tokens if refresh token is not available
+              this.clearAuthData();
             }
           } catch (refreshError) {
-            // Redirect to login or handle refresh failure
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('userData');
-            window.location.href = '/login';
+            // Only clear tokens if refresh fails
+            this.clearAuthData();
           }
         }
 
@@ -87,6 +92,13 @@ class HttpClientAdapter {
         data: null,
       };
     }
+  }
+
+  clearAuthData() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userData');
+    // Don't redirect automatically - let the app handle it
   }
 
   async refreshAuthToken(refreshToken) {

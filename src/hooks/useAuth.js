@@ -113,6 +113,16 @@ export const useAuth = () => {
           throw new Error('Respuesta de servidor inválida: datos de usuario incompletos');
         }
 
+        // Immediately persist to localStorage as backup
+        if (loginData.token) {
+          localStorage.setItem('authToken', loginData.token);
+          localStorage.setItem('userData', JSON.stringify(loginData.user));
+          if (loginData.refreshToken) {
+            localStorage.setItem('refreshToken', loginData.refreshToken);
+          }
+          console.log('💾 Login data persisted to localStorage');
+        }
+
         dispatch({
           type: AuthActionTypes.LOGIN_SUCCESS,
           payload: loginData,
@@ -163,6 +173,16 @@ export const useAuth = () => {
           throw new Error('Respuesta de servidor inválida: datos de usuario incompletos');
         }
 
+        // Immediately persist to localStorage as backup
+        if (registrationData.token) {
+          localStorage.setItem('authToken', registrationData.token);
+          localStorage.setItem('userData', JSON.stringify(registrationData.user));
+          if (registrationData.refreshToken) {
+            localStorage.setItem('refreshToken', registrationData.refreshToken);
+          }
+          console.log('💾 Registration data persisted to localStorage');
+        }
+
         dispatch({
           type: AuthActionTypes.LOGIN_SUCCESS,
           payload: registrationData,
@@ -189,14 +209,24 @@ export const useAuth = () => {
 
   // Template method for logout process
   const logout = useCallback(async (redirectPath = '/login') => {
+    console.log('🚪 Starting logout process...');
+    
     try {
       await apiService.logout();
+      console.log('✅ Server logout successful');
     } catch (error) {
-      console.error('Error during logout:', error);
-    } finally {
-      dispatch({ type: AuthActionTypes.LOGOUT });
-      navigate(redirectPath);
+      console.error('❌ Error during server logout (continuing anyway):', error);
     }
+    
+    // Always clear local data regardless of server response
+    console.log('🗑️ Clearing local auth data...');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userData');
+    
+    dispatch({ type: AuthActionTypes.LOGOUT });
+    navigate(redirectPath);
+    console.log('✅ Logout completed');
   }, [dispatch, navigate]);
 
   // Template method for forgot password

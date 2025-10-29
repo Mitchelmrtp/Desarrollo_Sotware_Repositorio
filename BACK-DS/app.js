@@ -64,6 +64,9 @@ app.use('/api/search', searchRoutes);
 app.use('/api/help', helpRoutes);
 app.use('/api/notifications', notificationRoutes);
 
+// Add alias routes without /api prefix for frontend compatibility
+app.use('/auth', authRoutes);
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.success({

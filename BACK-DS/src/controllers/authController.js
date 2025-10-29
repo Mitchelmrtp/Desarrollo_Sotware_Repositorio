@@ -152,13 +152,23 @@ export const refreshToken = async (req, res) => {
 // Logout user
 export const logout = async (req, res) => {
     try {
-        await logoutUser(req.user.userId);
+        console.log('🚪 Logout request received');
+        
+        // If user is authenticated, try to logout from service
+        if (req.user && req.user.userId) {
+            console.log('👤 Authenticated user logout:', req.user.userId);
+            await logoutUser(req.user.userId);
+        } else {
+            console.log('👤 Anonymous logout (no user session)');
+        }
 
+        console.log('✅ Logout successful');
         res.success(null, 'Logout exitoso');
 
     } catch (error) {
-        console.error('Logout error:', error);
-        res.error('Error interno del servidor', 500);
+        console.error('❌ Logout error:', error);
+        // Always return success for logout to avoid issues
+        res.success(null, 'Logout completado');
     }
 };
 

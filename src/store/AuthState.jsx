@@ -114,12 +114,21 @@ export const AuthStateProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
+        console.log('🔍 Checking auth status on app start...');
         const token = localStorage.getItem('authToken');
         const refreshToken = localStorage.getItem('refreshToken');
         const userData = localStorage.getItem('userData');
 
+        console.log('📦 Found in localStorage:', { 
+          hasToken: !!token, 
+          hasRefreshToken: !!refreshToken, 
+          hasUserData: !!userData 
+        });
+
         if (token && userData) {
           const user = JSON.parse(userData);
+          console.log('✅ Restoring user session:', { userId: user.id, email: user.email });
+          
           dispatch({
             type: AuthActionTypes.LOGIN_SUCCESS,
             payload: {
@@ -129,10 +138,11 @@ export const AuthStateProvider = ({ children }) => {
             },
           });
         } else {
+          console.log('❌ No valid session found, setting as logged out');
           dispatch({ type: AuthActionTypes.LOGOUT });
         }
       } catch (error) {
-        console.error('Error checking auth status:', error);
+        console.error('❌ Error checking auth status:', error);
         dispatch({ type: AuthActionTypes.LOGOUT });
       }
     };
@@ -143,17 +153,26 @@ export const AuthStateProvider = ({ children }) => {
   // Persist auth data to localStorage
   useEffect(() => {
     if (state.isAuthenticated && state.token) {
+      console.log('💾 Persisting auth data to localStorage:', { 
+        userId: state.user?.id, 
+        email: state.user?.email,
+        hasToken: !!state.token,
+        hasRefreshToken: !!state.refreshToken
+      });
+      
       localStorage.setItem('authToken', state.token);
       localStorage.setItem('userData', JSON.stringify(state.user));
       if (state.refreshToken) {
         localStorage.setItem('refreshToken', state.refreshToken);
       }
-    } else {
+    } else if (!state.loading) {
+      // Only clear if not loading (to avoid clearing during initial check)
+      console.log('🗑️ Clearing auth data from localStorage');
       localStorage.removeItem('authToken');
       localStorage.removeItem('userData');
       localStorage.removeItem('refreshToken');
     }
-  }, [state.isAuthenticated, state.token, state.user, state.refreshToken]);
+  }, [state.isAuthenticated, state.token, state.user, state.refreshToken, state.loading]);
 
   return (
     <AuthStateContext.Provider value={state}>

@@ -19,9 +19,11 @@ router.post('/refresh-token', refreshToken);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 
+// Logout route - public (no authentication required)
+router.post('/logout', logout);
+
 // Protected routes
 router.use(authMiddleware);
 router.get('/profile', getProfile);
-router.post('/logout', logout);
 
 export default router;
