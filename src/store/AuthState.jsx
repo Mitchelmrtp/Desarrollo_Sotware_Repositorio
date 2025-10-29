@@ -47,8 +47,8 @@ const authReducer = (state, action) => {
         isAuthenticated: true,
         loading: false,
         error: null,
-        role: action.payload.user.role,
-        permissions: action.payload.user.permissions || [],
+        role: action.payload.user?.role || null,
+        permissions: action.payload.user?.permissions || [],
       };
 
     case AuthActionTypes.LOGIN_FAILURE:
@@ -81,8 +81,8 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
-        role: action.payload.role,
-        permissions: action.payload.permissions || [],
+        role: action.payload?.role || null,
+        permissions: action.payload?.permissions || [],
       };
 
     case AuthActionTypes.SET_PERMISSIONS:

@@ -1,0 +1,113 @@
+// 🎯 OBJETIVO PRINCIPAL
+// Crea una nueva aplicación web full stack desde cero,
+// con backend en Node.js + PostgreSQL y frontend en React + Vite,
+// aplicando todos los principios SOLID, patrones de diseño, estilos arquitectónicos
+// y estructura modular definidos en los lineamientos previos.
+
+// ==========================
+// 🔙 BACKEND (Node.js + PostgreSQL)
+// ==========================
+
+// ⚙️ CONFIGURACIÓN BASE
+// - Crea un servidor Express configurado en index.js
+// - Configura PostgreSQL con Sequelize o pg-promise en /config/db.js
+// - Aplica el patrón Singleton en la conexión a base de datos
+// - Usa variables de entorno (.env) para credenciales y configuración
+
+// 📂 ESTRUCTURA DE CARPETAS
+// backend/
+// ├── src/
+// │   ├── config/          → conexión DB, factories, middlewares globales
+// │   ├── controllers/     → manejo de requests HTTP (MVC Controller)
+// │   ├── services/        → lógica de negocio (aplica Strategy, Template, Command)
+// │   ├── repositories/    → acceso a PostgreSQL (Repository Pattern)
+// │   ├── models/          → entidades y DTOs (Factory Method / DDD entities)
+// │   ├── routes/          → endpoints RESTful
+// │   ├── middlewares/     → validación, autenticación, logs (Decorator / Chain of Responsibility)
+// │   ├── events/          → manejo de eventos (Observer / Mediator / EDA)
+// │   ├── patterns/        → implementación de patrones específicos
+// │   ├── utils/           → funciones auxiliares
+// │   └── index.js
+// ├── tests/               → pruebas unitarias e integrales
+// └── .env
+
+// 🧱 PATRONES DE DISEÑO A USAR
+// - Creacionales: Singleton, Factory, Abstract Factory
+// - Estructurales: Adapter, Facade, Decorator, Bridge
+// - Comportamiento: Strategy, Command, Observer, Chain of Responsibility, Template Method, Mediator
+// - Arquitectónicos: MVC, DDD, Arquitectura en Capas, Arquitectura Basada en Componentes, SOA o EDA si aplica
+
+// 🧠 PRINCIPIOS SOLID
+// - SRP: cada clase/módulo una única responsabilidad
+// - OCP: extensible sin modificar código existente
+// - LSP, ISP y DIP implementados en servicios e interfaces
+
+// 🎯 RESULTADO
+// Un backend modular, mantenible, extensible, escalable y fácil de testear.
+
+// ==========================
+// 💻 FRONTEND (React + Vite)
+// ==========================
+
+// ⚙️ CONFIGURACIÓN BASE
+// - Configura React con Vite y React Router DOM
+// - Aplica Clean Architecture y principios SOLID adaptados al frontend
+// - Usa estado global (Context, Zustand o Redux) y separación clara entre lógica y presentación
+
+// 📂 ESTRUCTURA DE CARPETAS
+// frontend/
+// ├── src/
+// │   ├── components/      → componentes reutilizables (atoms, molecules, organisms)
+// │   ├── pages/           → vistas principales (MVP / MVVM / MVC)
+// │   ├── layouts/         → estructuras de interfaz (Navbar, Sidebar, Footer)
+// │   ├── hooks/           → lógica encapsulada (useAuth, useForm, useFetch, etc.)
+// │   ├── services/        → conexión al backend (Facade / Adapter)
+// │   ├── store/           → manejo de estado global (Observer Pattern)
+// │   ├── observers/       → suscripciones o eventos UI
+// │   ├── patterns/        → Strategy, Command, Template aplicados a UI
+// │   ├── routes/          → navegación y rutas protegidas
+// │   ├── utils/           → funciones auxiliares
+// │   ├── assets/          → imágenes, íconos, fuentes
+// │   ├── styles/          → estilos globales (Tailwind o CSS Modules)
+// │   └── main.jsx
+// ├── tests/               → pruebas de componentes y hooks
+// └── public/              → index.html
+
+// 🧱 PATRONES DE DISEÑO A USAR
+// - MVVM o MVP para componentes y hooks
+// - Container/Presenter para separar UI y lógica
+// - Observer Pattern para estado reactivo
+// - Facade y Adapter para consumo de API
+// - Strategy y Command para comportamientos dinámicos
+// - Decorator (HOC) para roles o permisos
+// - Template Method en hooks comunes
+
+// 🎨 DISEÑO
+// - Mantén la UI moderna, modular, responsive y accesible
+// - Usa componentes reutilizables y consistentes con Atomic Design
+
+// 🧠 PRINCIPIOS SOLID
+// - SRP: cada componente o hook tiene una sola responsabilidad
+// - DRY: evita duplicación de código
+// - DIP: componentes dependen de abstracciones, no implementaciones concretas
+
+// 🎯 RESULTADO
+// Un frontend escalable, limpio, reutilizable, bien estructurado y fácil de mantener.
+
+// ==========================
+// 🔄 INTEGRACIÓN FULL STACK
+// ==========================
+// - Conexión RESTful clara entre frontend y backend
+// - Endpoints y servicios coherentes y documentados
+// - Modelos compartidos o DTOs consistentes
+// - Validaciones y respuestas uniformes
+// - Patrón Facade unificando servicios API en el frontend
+// - Patrón Repository gestionando persistencia en el backend
+// - Aplicación de Event-Driven Architecture (EDA) si el sistema requiere notificaciones o colas de eventos
+
+// ✅ RESULTADO FINAL
+// Una página web completa, construida desde cero,
+// con una arquitectura robusta, limpia y profesional,
+// aplicando todos los patrones de diseño y principios SOLID,
+// con backend y frontend desacoplados pero perfectamente integrados,
+// lista para escalar, testear y mantener.

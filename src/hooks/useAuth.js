@@ -93,21 +93,39 @@ export const useAuth = () => {
       dispatch({ type: AuthActionTypes.LOGIN_START });
 
       const result = await apiService.login(credentials);
+      console.log('🔍 Login API result:', JSON.stringify(result, null, 2));
       
-      if (result.success) {
+      if (result.success && result.data) {
+        console.log('✅ Login success, data received:', JSON.stringify(result.data, null, 2));
+        
+        // Ensure we have the correct structure
+        const loginData = {
+          user: result.data.user || result.data,
+          token: result.data.accessToken || result.data.token,
+          refreshToken: result.data.refreshToken
+        };
+        console.log('📦 Processed login data:', JSON.stringify(loginData, null, 2));
+
+        // Validate user object
+        if (!loginData.user || !loginData.user.email) {
+          console.error('❌ Invalid login response - missing user/email:', result.data);
+          console.error('❌ Processed data:', loginData);
+          throw new Error('Respuesta de servidor inválida: datos de usuario incompletos');
+        }
+
         dispatch({
           type: AuthActionTypes.LOGIN_SUCCESS,
-          payload: result.data,
+          payload: loginData,
         });
         
         navigate(redirectPath);
-        return { success: true, data: result.data };
+        return { success: true, data: loginData };
       } else {
         dispatch({
           type: AuthActionTypes.LOGIN_FAILURE,
-          payload: result.error,
+          payload: result.error || 'Error en el login',
         });
-        return { success: false, error: result.error };
+        return { success: false, error: result.error || 'Error en el login' };
       }
     } catch (error) {
       const errorMessage = error.message || 'Error de conexión';
@@ -125,21 +143,39 @@ export const useAuth = () => {
       dispatch({ type: AuthActionTypes.LOGIN_START });
 
       const result = await apiService.register(userData);
+      console.log('🔍 Registration API result:', JSON.stringify(result, null, 2));
       
-      if (result.success) {
+      if (result.success && result.data) {
+        console.log('✅ Registration success, data received:', JSON.stringify(result.data, null, 2));
+        
+        // Ensure we have the correct structure
+        const registrationData = {
+          user: result.data.user || result.data,
+          token: result.data.accessToken || result.data.token,
+          refreshToken: result.data.refreshToken
+        };
+        console.log('📦 Processed registration data:', JSON.stringify(registrationData, null, 2));
+
+        // Validate user object
+        if (!registrationData.user || !registrationData.user.email) {
+          console.error('❌ Invalid server response - missing user/email:', result.data);
+          console.error('❌ Processed data:', registrationData);
+          throw new Error('Respuesta de servidor inválida: datos de usuario incompletos');
+        }
+
         dispatch({
           type: AuthActionTypes.LOGIN_SUCCESS,
-          payload: result.data,
+          payload: registrationData,
         });
         
         navigate(redirectPath);
-        return { success: true, data: result.data };
+        return { success: true, data: registrationData };
       } else {
         dispatch({
           type: AuthActionTypes.LOGIN_FAILURE,
-          payload: result.error,
+          payload: result.error || 'Error en el registro',
         });
-        return { success: false, error: result.error };
+        return { success: false, error: result.error || 'Error en el registro' };
       }
     } catch (error) {
       const errorMessage = error.message || 'Error de conexión';

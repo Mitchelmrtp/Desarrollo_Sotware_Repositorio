@@ -12,7 +12,7 @@ class ApiServiceFacade {
   async login(credentials) {
     try {
       const response = await this.client.post('/auth/login', credentials);
-      return { success: true, data: response };
+      return response; // Return backend response directly (already has success, data, message)
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -21,7 +21,7 @@ class ApiServiceFacade {
   async register(userData) {
     try {
       const response = await this.client.post('/auth/register', userData);
-      return { success: true, data: response };
+      return response; // Return backend response directly (already has success, data, message)
     } catch (error) {
       return { success: false, error: error.message };
     }
